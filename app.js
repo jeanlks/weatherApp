@@ -8,26 +8,44 @@ const argv = yargs
         a: {
             demand: true,
             alias: 'address',
-            describe: 'Address to fetch weather',
+            describe: 'Address to fetch weather.',
             string: true
+        }
+    })
+    .options({
+        s: {
+            demand: false,
+            alias: 'seconds',
+            describe: 'Values for seconds to interval.'
         }
     })
     .help()
     .alias('help', 'h')
     .argv;
 
+var seconds = 1;
+var repetitions = 1;
+if(argv.seconds) {
+    seconds = argv.seconds;
+}
+if (argv.repetitions) {
+    repetitions = argv.repetitions;
+}
 
 geocode.geocodeAddress(argv.address, (errorMessage, results ) => {
    if(errorMessage) {
        console.log(errorMessage);
    } else {
-       console.log(results);
-       weather.getWeather(results.latitude,results.longitude, (errorMessage, weatherResult) => {
+       console.log(results.address);
+     
+        setInterval(() => {
+             weather.getWeather(results.latitude,results.longitude, (errorMessage, weatherResult) => {
             if(errorMessage){
                 console.log(errorMessage);
             }else {
                 console.log(`Temperatura: ${weatherResult.temperature}`)
             }
-       });
+        });
+        }, seconds*1000);
     }
 });
