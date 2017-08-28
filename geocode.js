@@ -17,7 +17,7 @@ request({
         callback(undefined, {
             address:body.results[0].formatted_address,
             latitude: body.results[0].geometry.location.lat,
-            longitute: body.results[0].geometry.location.log
+            longitude: body.results[0].geometry.location.lng
         });
     }
 
