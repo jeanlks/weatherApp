@@ -11,7 +11,8 @@ var getWeather = (lat, long, callback) => {
             callback('Não foi possível obter uma previsão.');
        } else if(response.statusCode === 200) {
            callback(undefined, { 
-                temperature: body.currently.temperature
+                temperature: body.currently.temperature,
+                humidity: Math.floor(body.currently.humidity*100)
             });
        }
     });

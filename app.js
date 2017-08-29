@@ -46,7 +46,8 @@ geocode.geocodeAddress(argv.address, (errorMessage, results ) => {
             }else {
               var dt = dateTime.create();
               var formattedDate = dt.format('Y-m-d H:M:S');       
-                console.log(`Horario: ${formattedDate} | Temperatura: ${weatherResult.temperature}`)
+                console.log(`Horario: ${formattedDate} | Temperatura: ${weatherResult.temperature}`+
+                 `| Humidity ${weatherResult.humidity}%`)
             }
         });
         }, seconds*1000);
