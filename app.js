@@ -2,6 +2,7 @@ const request = require('request');
 const yargs = require('yargs');
 const geocode = require('./geocode')
 const weather = require('./weather');
+var dateTime = require('node-datetime');
 
 const argv = yargs
     .options({
@@ -43,7 +44,9 @@ geocode.geocodeAddress(argv.address, (errorMessage, results ) => {
             if(errorMessage){
                 console.log(errorMessage);
             }else {
-                console.log(`Temperatura: ${weatherResult.temperature}`)
+              var dt = dateTime.create();
+              var formattedDate = dt.format('Y-m-d H:M:S');       
+                console.log(`Horario: ${formattedDate} | Temperatura: ${weatherResult.temperature}`)
             }
         });
         }, seconds*1000);
