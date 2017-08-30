@@ -3,6 +3,9 @@ const yargs = require('yargs');
 const geocode = require('./geocode')
 const weather = require('./weather');
 var dateTime = require('node-datetime');
+const express = require('express');
+
+var app = express();
 
 const argv = yargs
     .options({
@@ -32,24 +35,29 @@ if(argv.seconds) {
 if (argv.repetitions) {
     repetitions = argv.repetitions;
 }
+ app.get('/', (req, res) => {
 
-geocode.geocodeAddress(argv.address, (errorMessage, results ) => {
+ geocode.geocodeAddress(argv.address, (errorMessage, results ) => {
    if(errorMessage) {
        console.log(errorMessage);
    } else {
-       console.log(results.address);
-     
-        setInterval(() => {
-             weather.getWeather(results.latitude,results.longitude, (errorMessage, weatherResult) => {
+       weather.getWeather(results.latitude,results.longitude, (errorMessage, weatherResult) => {
             if(errorMessage){
                 console.log(errorMessage);
             }else {
               var dt = dateTime.create();
-              var formattedDate = dt.format('Y-m-d H:M:S');       
-                console.log(`Horario: ${formattedDate} | Temperatura: ${weatherResult.temperature}`+
-                 `| Humidity ${weatherResult.humidity}%`)
+              var formattedDate = dt.format('Y-m-d H:M:S');  
+                console.log(`Request realizado as: ${formattedDate}`);
+                res.send(`
+                <script>
+                   setTimeout(function() { window.location=window.location;},${seconds*1000});
+                </script>
+                Local: ${results.address}
+                Horario: ${formattedDate} | Temperatura: ${weatherResult.temperature}`+
+                 `| Humidade ${weatherResult.humidity}%`);
             }
         });
-        }, seconds*1000);
     }
 });
+ });
+app.listen(2000);
