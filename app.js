@@ -52,9 +52,9 @@ if (argv.repetitions) {
                 <script>
                    setTimeout(function() { window.location=window.location;},${seconds*1000});
                 </script>
-                Local: ${results.address}
-                Horario: ${formattedDate} | Temperatura: ${weatherResult.temperature}`+
-                 `| Humidade ${weatherResult.humidity}%`);
+                <br>Local: ${results.address}</br>
+                <br>Horario: ${formattedDate}</br> <br> Temperatura: ${weatherResult.temperature}</br>`+
+                 `<br> Humidade ${weatherResult.humidity}%</br>`);
             }
         });
     }
