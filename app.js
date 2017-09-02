@@ -7,6 +7,12 @@ const express = require('express');
 
 var app = express();
 
+app.set('view engine', 'hbs');
+var scripts = [{ script: '/scripts/Chart.bundle.js' }, 
+                {script: '/scripts/utils.js'}];
+
+app.use(express.static(__dirname + './public'));
+app.use('/scripts', express.static(__dirname + '/scripts'));
 const argv = yargs
     .options({
         a: {
@@ -48,16 +54,20 @@ if (argv.repetitions) {
               var dt = dateTime.create();
               var formattedDate = dt.format('Y-m-d H:M:S');  
                 console.log(`Request realizado as: ${formattedDate}`);
-                res.send(`
-                <script>
-                   setTimeout(function() { window.location=window.location;},${seconds*1000});
-                </script>
-                <br>Local: ${results.address}</br>
-                <br>Horario: ${formattedDate}</br> <br> Temperatura: ${weatherResult.temperature}</br>`+
-                 `<br> Humidade ${weatherResult.humidity}%</br>`);
+                res.render('temperature.hbs', {
+                    temperature: weatherResult.temperature,
+                    humidity: weatherResult.humidity,
+                    address : results.address,
+                    date: formattedDate,
+                    seconds: seconds * 1000
+                });
             }
         });
     }
 });
  });
-app.listen(2000);
+
+
+app.listen(2000, () => {
+    console.log('server started');
+});
