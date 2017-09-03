@@ -51,7 +51,7 @@ if (argv.repetitions) {
                     humidity: weatherResult.humidity,
                     address : results.address,
                     date: formattedDate,
-                    seconds: seconds * 1000
+                    seconds: process.env.SECONDS_REFRESH * 1000
                 });
             }
         });
