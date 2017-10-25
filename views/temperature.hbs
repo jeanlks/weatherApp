@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div id="container" style="width: 75%;">
+    <div id="container" style="width: 35%;">
         <canvas id="canvas"></canvas>
     </div>
   <br>Local: {{address}}</br>
@@ -26,16 +26,16 @@
             labels: [""],
             datasets: [{
                 label: 'Temperature',
-                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                backgroundColor: color(window.chartColors.red).alpha(0.8).rgbString(),
                 borderColor: window.chartColors.red,
-                borderWidth: 1,
+                borderWidth: 0.5,
                 data: [{{temperature}}
                 ]
             }, {
                 label: 'Humidity',
-                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                backgroundColor: color(window.chartColors.blue).alpha(0.8).rgbString(),
                 borderColor: window.chartColors.blue,
-                borderWidth: 1,
+                borderWidth: 0.5,
                 data: [{{humidity}}
                 ]
             }]
@@ -44,6 +44,9 @@
 
         window.onload = function() {
             var ctx = document.getElementById("canvas").getContext("2d");
+            ctx.canvas.height = 20;
+            ctx.canvas.width = 25;
+
             window.myBar = new Chart(ctx, {
                 type: 'bar',
                 data: barChartData,
@@ -57,6 +60,9 @@
                         text: 'Temperature and Humidity '
                     },
                      scales: {
+                         xAxes: [{
+                             barPercentage: 0.2
+                         }],
         yAxes: [{
             ticks: {
                 beginAtZero: true
